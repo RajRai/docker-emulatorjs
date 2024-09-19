@@ -74,18 +74,12 @@ RUN \
     zip
 
 RUN \
-  echo "**** grab emulatorjs ****" && \
+  echo "**** grab emulatorjs source ****" && \
   mkdir /emulatorjs && \
-  if [ -z ${EMULATORJS_RELEASE+x} ]; then \
-    EMULATORJS_RELEASE=$(curl -sX GET "https://api.github.com/repos/linuxserver/emulatorjs/releases/latest" \
-      | awk '/tag_name/{print $4;exit}' FS='[""]'); \
-  fi && \
-  curl -o \
-    /tmp/emulatorjs.tar.gz -L \
-    "https://github.com/linuxserver/emulatorjs/archive/${EMULATORJS_RELEASE}.tar.gz" && \
-  tar xf \
-    /tmp/emulatorjs.tar.gz -C \
-    /emulatorjs/ --strip-components=1
+  curl -o /tmp/emulatorjs.tar.gz -L \
+    "https://github.com/rajrai/emulatorjs/archive/refs/heads/master.tar.gz" && \
+  tar xf /tmp/emulatorjs.tar.gz -C /emulatorjs/ --strip-components=1 && \
+  rm /tmp/emulatorjs.tar.gz
 
 RUN \
   echo "**** grab emulatorjs blobs ****" && \
