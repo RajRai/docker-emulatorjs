@@ -123,7 +123,8 @@ RUN \
     nginx \
     p7zip \
     python3 \
-    sdl2 && \
+    sdl2 \
+    dos2unix && \
   apk add --no-cache --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing \
     mame-tools && \
   mkdir /data && \
@@ -141,6 +142,9 @@ COPY --from=binbuilder /build-out/ /
 COPY --from=migrationbuilder /build-out/ /
 COPY --from=nodebuilder /emulatorjs/ /emulatorjs/
 COPY root/ /
+
+# Normalize line endings for all files in the root filesystem
+RUN find / -type f -exec dos2unix {} \;
 
 # ports
 EXPOSE 80 3000
